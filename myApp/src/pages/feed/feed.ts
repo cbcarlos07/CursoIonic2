@@ -17,9 +17,12 @@ export class FeedPage {
   public nome_usuario:string = "Carlos Bruno Brito";
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
+  somaDoisNumeros( num1: number, num2: number ){
+    
+     alert( `Resultado do calculo: ${num1 + num2}` )
+  }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FeedPage');
+   // this.somaDoisNumeros(20, 10)
   }
 
 }
