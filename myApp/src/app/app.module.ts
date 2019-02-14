@@ -14,6 +14,7 @@ import { FeedPageModule } from '../pages/feed/feed.module';
 import { IntroPageModule } from '../pages/intro/intro.module';
 import { HttpModule } from '@angular/http'
 import { MovieProvider } from '../providers/movie/movie';
+import { LoginPageModule } from '../pages/login/login.module';
 @NgModule({
   declarations: [
     MyApp,
@@ -27,7 +28,8 @@ import { MovieProvider } from '../providers/movie/movie';
     IonicModule.forRoot(MyApp),
     FeedPageModule,
     IntroPageModule,
-    HttpModule
+    HttpModule,
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
