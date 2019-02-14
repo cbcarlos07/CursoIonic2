@@ -15,6 +15,9 @@ import { IntroPageModule } from '../pages/intro/intro.module';
 import { HttpModule } from '@angular/http'
 import { MovieProvider } from '../providers/movie/movie';
 import { LoginPageModule } from '../pages/login/login.module';
+import { ConfiguracoesPageModule } from '../pages/configuracoes/configuracoes.module';
+import { PerfilPageModule } from '../pages/perfil/perfil.module';
+import { SobrePageModule } from '../pages/sobre/sobre.module';
 @NgModule({
   declarations: [
     MyApp,
@@ -29,7 +32,10 @@ import { LoginPageModule } from '../pages/login/login.module';
     FeedPageModule,
     IntroPageModule,
     HttpModule,
-    LoginPageModule
+    LoginPageModule,
+    ConfiguracoesPageModule,
+    PerfilPageModule,
+    SobrePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
