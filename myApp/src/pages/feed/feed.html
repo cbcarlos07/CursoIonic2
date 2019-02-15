@@ -10,7 +10,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>  
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-card *ngFor="let filme of listaFilmes">
     <ion-item>
       <ion-avatar item-start>
@@ -19,13 +23,13 @@
       <h2 class="feed_title">{{ filme.original_title }}</h2>
       <p class="feed_date">{{ filme.release_date }}</p>
     </ion-item>
-    
+
     <img [src]="'https://image.tmdb.org/t/p/w500' + filme.backdrop_path">
-  
+
     <ion-card-content>
       <p>{{ filme.overview }}</p>
     </ion-card-content>
-  
+
     <ion-row>
       <ion-col>
         <button ion-button icon-start clear small>
@@ -45,5 +49,6 @@
         </ion-note>
       </ion-col>
     </ion-row>
+    <button ion-button block (click)="abrirDetalhes(filme.id)" >Detalhes</button>
   </ion-card>
 </ion-content>

@@ -16,4 +16,8 @@ export class MovieProvider {
     return this.http.get(`${this.baseApiPath}/movie/popular?api_key=${this.api_key}`)
   }
 
+  getMovie(id){
+     return this.http.get( `${this.baseApiPath}/movie/${id}?api_key=${this.api_key}` )
+  }
+
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MovieProvider } from '../../providers/movie/movie';
+import { FilmeDetalhesPage } from '../filme-detalhes/filme-detalhes';
 
 @IonicPage()
 @Component({
@@ -20,22 +21,65 @@ export class FeedPage {
       timeComments: '11h ago'
   }
   listaFilmes = new Array<any>()
+  private loader
+  private refresher
+  private isRefreshing = false
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private movieProvider: MovieProvider) {
+              private movieProvider: MovieProvider,
+              private loadingCtrl: LoadingController) {
   }
   somaDoisNumeros( num1: number, num2: number ){
     
      alert( `Resultado do calculo: ${num1 + num2}` )
   }
-  ionViewDidLoad() {
-     this.movieProvider.getLatestMovies()
+  ionViewDidEnter() {
+     
+     this.carregarFilmes() 
+  }
+  carregarFilmes(){
+    this.abreCarregando()
+    this.movieProvider.getLatestMovies()
                        .subscribe( data => {
                          const response = (data as any)
                          const obj_retorno = JSON.parse(response._body)
                          this.listaFilmes = obj_retorno.results
                          console.log(obj_retorno)
+                         this.fechaCarregando()
+                         if(this.isRefreshing){
+                          this.refresher.complete()
+                          this.isRefreshing = false
+                         }
+                         
+                       }, error =>{
+                         console.log(error);
+                         this.fechaCarregando()  
+                         if(this.isRefreshing){
+                          this.refresher.complete()
+                          this.isRefreshing = false
+                         }
                        } )
   }
+
+  abreCarregando() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando filmes"
+    });
+    this.loader.present();
+  }
+  fechaCarregando(){
+    this.loader.dismiss()
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher 
+    this.isRefreshing = true 
+    this.carregarFilmes()
+  }
+
+  abrirDetalhes( id ){
+    this.navCtrl.push( FilmeDetalhesPage, {id: id} )
+  }
+
 
 }
