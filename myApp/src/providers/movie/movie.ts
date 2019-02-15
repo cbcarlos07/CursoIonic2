@@ -10,10 +10,11 @@ export class MovieProvider {
     console.log('Hello MovieProvider Provider');
   }
 
-  getLatestMovies(){
+  getLatestMovies( page = 1 ){
     
-    //return this.http.get(`${this.baseApiPath}/movie/latest?api_key=${this.api_key}`)
-    return this.http.get(`${this.baseApiPath}/movie/popular?api_key=${this.api_key}`)
+    //return this.http.get(`${this.baseApiPath}/movie/popular?api_key=${this.api_key}`)
+    return this.http.get(this.baseApiPath + `/movie/popular?page=${page}&api_key=` + this.api_key)
+    //return this.http.get('https://api.themoviedb.org/3/movie/popular?page=1&api_key=bcd9f1ea08ec22eca153e63973a0e9ef')
   }
 
   getMovie(id){

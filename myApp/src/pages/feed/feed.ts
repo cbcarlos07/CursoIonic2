@@ -24,6 +24,8 @@ export class FeedPage {
   private loader
   private refresher
   private isRefreshing = false
+  private infiniteScroll
+  public page = 1
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private movieProvider: MovieProvider,
@@ -37,23 +39,30 @@ export class FeedPage {
      
      this.carregarFilmes() 
   }
-  carregarFilmes(){
+  carregarFilmes(newPage: boolean =  false){
     this.abreCarregando()
-    this.movieProvider.getLatestMovies()
+    this.movieProvider.getLatestMovies(this.page)
                        .subscribe( data => {
                          const response = (data as any)
                          const obj_retorno = JSON.parse(response._body)
-                         this.listaFilmes = obj_retorno.results
+                         if( newPage ){
+                          this.listaFilmes = this.listaFilmes.concat(obj_retorno.results)
+                          //this.infiniteScroll.complete()
+                         }else{
+                           this.listaFilmes = obj_retorno.results
+                         }
                          console.log(obj_retorno)
                          this.fechaCarregando()
+                         
                          if(this.isRefreshing){
                           this.refresher.complete()
                           this.isRefreshing = false
                          }
                          
                        }, error =>{
-                         console.log(error);
-                         this.fechaCarregando()  
+                         console.log('error',error);
+                         this.fechaCarregando() 
+                         this.infiniteScroll.complete() 
                          if(this.isRefreshing){
                           this.refresher.complete()
                           this.isRefreshing = false
@@ -81,5 +90,10 @@ export class FeedPage {
     this.navCtrl.push( FilmeDetalhesPage, {id: id} )
   }
 
+  doInfinite( infiniteScroll ){
+     this.page++
+     this.infiniteScroll = infiniteScroll
+     this.carregarFilmes(true);
+  }
 
 }
